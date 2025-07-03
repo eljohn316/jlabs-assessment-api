@@ -13,6 +13,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.0.10",
@@ -24,6 +25,7 @@
     "@node-rs/argon2": "^2.0.2",
     "@node-rs/jsonwebtoken": "^0.5.9",
     "@prisma/client": "6.11.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "morgan": "^1.10.0",
     "zod": "^3.25.69"
