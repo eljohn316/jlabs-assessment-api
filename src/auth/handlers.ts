@@ -4,7 +4,11 @@ import { loginSchema, registerSchema } from './schema';
 import * as authService from './services';
 
 export const getCurrentUser = async (req: Request, res: Response) => {
-  res.send('/auth/current-user handler');
+  const user = await authService.getCurrentUser(req.userId);
+
+  res.status(200).json({
+    user
+  });
 };
 
 export const login = async (req: Request, res: Response) => {

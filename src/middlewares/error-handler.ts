@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { ValidationException, UnauthorizedException } from '../common/exceptions';
+import {
+  ValidationException,
+  UnauthorizedException,
+  NotFoundException
+} from '../common/exceptions';
 
 const errorHandler = async (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ValidationException) {
@@ -13,6 +17,14 @@ const errorHandler = async (err: Error, req: Request, res: Response, next: NextF
   }
 
   if (err instanceof UnauthorizedException) {
+    res.status(err.statusCode).json({
+      message: err.message,
+      statusCode: err.statusCode
+    });
+    return;
+  }
+
+  if (err instanceof NotFoundException) {
     res.status(err.statusCode).json({
       message: err.message,
       statusCode: err.statusCode
