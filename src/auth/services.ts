@@ -1,10 +1,29 @@
 import * as jwt from '@node-rs/jsonwebtoken';
-import { db } from '../db';
 import { User } from '../../generated/prisma';
-import { hashPassword } from '../common/auth';
-import { ValidationException } from '../common/exceptions';
+import { db } from '../db';
+import { hashPassword, verifyPassword } from '../common/auth';
+import { ValidationException, UnauthorizedException } from '../common/exceptions';
 
+type LoginPayload = Pick<User, 'email' | 'password'>;
 type RegisterPayload = Pick<User, 'name' | 'email' | 'password'>;
+
+export const login = async (payload: LoginPayload) => {
+  const { email, password } = payload;
+
+  const user = await getUserbyEmail(email);
+  if (!user) throw new UnauthorizedException('Invalid email or password');
+
+  const validPassword = await verifyPassword(user.password, password);
+  if (!validPassword) throw new UnauthorizedException('Invalid email or password');
+
+  return {
+    id: user.id,
+    image: user.image,
+    name: user.name,
+    email: user.email,
+    dateJoined: user.dateJoined
+  };
+};
 
 export const register = async (payload: RegisterPayload) => {
   const { name, email, password } = payload;

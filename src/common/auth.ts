@@ -1,4 +1,4 @@
-import { hash } from '@node-rs/argon2';
+import { hash, verify } from '@node-rs/argon2';
 
 export const hashPassword = async (password: string) => {
   return await hash(password, {
@@ -7,4 +7,8 @@ export const hashPassword = async (password: string) => {
     outputLen: 32,
     parallelism: 1
   });
+};
+
+export const verifyPassword = async (hashed: string, password: string) => {
+  return await verify(hashed, password);
 };

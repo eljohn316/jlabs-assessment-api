@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { registerSchema } from './schema';
 import { ValidationException } from '../common/exceptions';
+import { loginSchema, registerSchema } from './schema';
 import * as authService from './services';
 
 export const getCurrentUser = async (req: Request, res: Response) => {
@@ -8,7 +8,17 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  res.send('/auth/login handler');
+  const { error, data } = loginSchema.safeParse(req.body);
+
+  if (error) throw new ValidationException(error);
+
+  const user = await authService.login(data);
+  const token = await authService.createUserToken(user.id);
+
+  res.status(200).json({
+    user,
+    token
+  });
 };
 
 export const register = async (req: Request, res: Response) => {

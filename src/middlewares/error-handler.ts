@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ValidationException } from '../common/exceptions';
+import { ValidationException, UnauthorizedException } from '../common/exceptions';
 
 const errorHandler = async (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ValidationException) {
@@ -7,6 +7,14 @@ const errorHandler = async (err: Error, req: Request, res: Response, next: NextF
       error: err.message,
       message:
         typeof err.errors === 'string' ? [err.errors] : err.errors.issues.map((iss) => iss.message),
+      statusCode: err.statusCode
+    });
+    return;
+  }
+
+  if (err instanceof UnauthorizedException) {
+    res.status(err.statusCode).json({
+      message: err.message,
       statusCode: err.statusCode
     });
     return;
