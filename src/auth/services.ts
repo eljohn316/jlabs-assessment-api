@@ -2,11 +2,7 @@ import * as jwt from '@node-rs/jsonwebtoken';
 import { User } from '../../generated/prisma';
 import { db } from '../db';
 import { hashPassword, verifyPassword } from '../common/auth';
-import {
-  ValidationException,
-  UnauthorizedException,
-  NotFoundException
-} from '../common/exceptions';
+import { UnauthorizedException, NotFoundException } from '../common/exceptions';
 
 type LoginPayload = Pick<User, 'email' | 'password'>;
 type RegisterPayload = Pick<User, 'name' | 'email' | 'password'>;
@@ -31,10 +27,6 @@ export const login = async (payload: LoginPayload) => {
 
 export const register = async (payload: RegisterPayload) => {
   const { name, email, password } = payload;
-
-  const emailTaken = await getUserbyEmail(email);
-  if (emailTaken) throw new ValidationException('Email already taken.');
-
   const image = generateDefaultImage(name);
   const hashedPassword = await hashPassword(password);
 
@@ -102,7 +94,7 @@ export const verifyToken = async (
   }
 };
 
-const getUserbyEmail = async (email: string) => {
+export const getUserbyEmail = async (email: string) => {
   const user = await db.user.findUnique({ where: { email } });
   return user;
 };

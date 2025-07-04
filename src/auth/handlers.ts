@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { error, data } = registerSchema.safeParse(req.body);
+  const { error, data } = await registerSchema.safeParseAsync(req.body);
 
   if (error) throw new ValidationException(error);
 
