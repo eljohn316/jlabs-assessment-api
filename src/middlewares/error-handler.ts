@@ -8,9 +8,8 @@ import {
 const errorHandler = async (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ValidationException) {
     res.status(err.statusCode).json({
-      error: err.message,
-      message:
-        typeof err.errors === 'string' ? [err.errors] : err.errors.issues.map((iss) => iss.message),
+      message: err.message,
+      data: err.errors.flatten().fieldErrors,
       statusCode: err.statusCode
     });
     return;

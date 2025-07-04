@@ -2,9 +2,9 @@ import { ZodError } from 'zod';
 
 export class ValidationException extends Error {
   statusCode: number;
-  errors: ZodError | string;
+  errors: ZodError;
 
-  constructor(errors: ZodError | string) {
+  constructor(errors: ZodError) {
     super('Bad request');
     this.statusCode = 400;
     this.errors = errors;

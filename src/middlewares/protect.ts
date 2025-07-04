@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UnauthorizedException } from '../common/exceptions';
-import { verifyToken } from '../auth/services';
+import { verifyToken } from '../common/auth';
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;

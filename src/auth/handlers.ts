@@ -16,8 +16,7 @@ export const login = async (req: Request, res: Response) => {
 
   if (error) throw new ValidationException(error);
 
-  const user = await authService.login(data);
-  const token = await authService.createUserToken(user.id);
+  const { user, token } = await authService.login(data);
 
   res.status(200).json({
     user,
@@ -30,8 +29,7 @@ export const register = async (req: Request, res: Response) => {
 
   if (error) throw new ValidationException(error);
 
-  const user = await authService.register(data);
-  const token = await authService.createUserToken(user.id);
+  const { user, token } = await authService.register(data);
 
   res.status(201).json({
     user,
