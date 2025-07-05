@@ -15,6 +15,12 @@ cd jlabs-assessment-api
 pnpm install
 ```
 
+### 3. Generate the Prisma Client
+
+```bash
+pnpm prisma-generate
+```
+
 ### 3. Running
 
 ```bash

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production node dist/index.js",
     "dev": "NODE_ENV=development tsx watch --clear-screen=false --env-file=.env src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prisma-generate": "pnpm prisma generate"
   },
   "keywords": [],
   "author": "",
